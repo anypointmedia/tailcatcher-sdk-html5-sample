@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TailCatcher SDK Example</title>
+    <script src="https://sdk.anypoint.tv/html5/tailcatcher-sdk-1.0.0.js"></script>
+    <script>
+      TailCatcher.initialize({
+        customer: 'CUSTOMER_CODE',
+        retailer: 'RETAILER_CODE',
+      });
+
+      if (localStorage.getItem('userId')) {
+        TailCatcher.setUser(localStorage.getItem('userId'));
+      }
+
+      TailCatcher.logEvent(TailCatcher.EventName.VIEW_PAGE, { page: 'login' });
+    </script>
+  </head>
+  <body>
+    <h1>Login Page</h1>
+    <a href="single-page-application.html">
+      <button>Move to Home Page</button>
+    </a>
+    <br /><br />
+    <input id="id-input" type="text" placeholder="ID" />
+    <button onclick="login()">Login</button>
+    <script>
+      function login() {
+        localStorage.setItem('userId', document.getElementById('id-input').value);
+        alert('Login Success');
+        TailCatcher.setUser(localStorage.getItem('userId'));
+
+        window.location.href = 'single-page-application.html';
+      }
+    </script>
+  </body>
+</html>
