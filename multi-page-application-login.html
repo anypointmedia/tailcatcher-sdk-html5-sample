@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TailCatcher SDK Example</title>
+    <script src="../dist/tailcatcher-sdk.js"></script>
+    <script>
+      // TODO GUIDE: initialize SDK with view_page event & user ID
+      TailCatcherSdk.initPage(
+        'CUSTOMER_CODE',
+        'RETAILER_CODE',
+        { page: 'login' },
+        localStorage.getItem('userId')
+      );
+    </script>
+  </head>
+  <body>
+    <h1>Login Page</h1>
+    <a href="multi-page-application.html">
+      <button>Move to Main Page</button>
+    </a>
+    <br /><br />
+    <input id="id-input" type="text" placeholder="ID" />
+    <button onclick="login()">Login</button>
+    <script>
+      function login() {
+        localStorage.setItem('userId', document.getElementById('id-input').value);
+        alert('Login Success');
+        // TODO Guide: Set user on login
+        TailCatcherSdk.setUser(localStorage.getItem('userId'));
+
+        window.location.href = 'multi-page-application.html';
+      }
+    </script>
+  </body>
+</html>

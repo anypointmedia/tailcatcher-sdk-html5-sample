@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TailCatcher SDK Example</title>
+    <script src="../dist/tailcatcher-sdk.js"></script>
+    <script>
+      // TODO GUIDE: initialize SDK with view_page event & user ID
+      TailCatcherSdk.initPage(
+        'CUSTOMER_CODE',
+        'RETAILER_CODE',
+        { page: 'main' },
+        localStorage.getItem('userId'),
+      );
+    </script>
+  </head>
+  <body>
+    <h1>Multi Page Application</h1>
+    <a href="multi-page-application-product.html">
+      <button>Move to Product Page</button>
+    </a>
+    <br /><br />
+    <script>
+      if (localStorage.getItem('userId')) {
+        document.write('<h1>Welcome "' + localStorage.getItem('userId') + '"</h1>');
+        document.write('<button onclick="logout()">Logout</button>');
+      } else {
+        document.write('<a href="multi-page-application-login.html"><button>Move to Login Page</button></a>');
+      }
+
+      function logout() {
+        localStorage.removeItem('userId');
+        alert('Logout Success');
+        // TODO Guide: Unset user on logout
+        TailCatcherSdk.setUser(null);
+
+        window.location.href = 'multi-page-application.html';
+      }
+    </script>
+  </body>
+</html>

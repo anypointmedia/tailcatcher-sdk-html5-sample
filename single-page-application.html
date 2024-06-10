@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TailCatcher SDK Example</title>
+    <script src="../dist/tailcatcher-sdk.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      // TODO GUIDE: initialize SDK
+      TailCatcherSdk.init(
+        'CUSTOMER_CODE',
+        'RETAILER_CODE',
+      );
+      toMainPage();
+
+      function toMainPage() {
+        // Mocking SPA
+        window.history.pushState({}, 'Main', '?page=main');
+        document.getElementById('app').innerHTML = '' +
+          '<h1>Single Page Application</h1>' +
+          '<button onclick="toProductPage()">Move to Product Page</button>' +
+          '<br /><br />' +
+          (localStorage.getItem('userId') ? '<h1>Welcome "' + localStorage.getItem('userId') + '"</h1>' : '') +
+          (
+            localStorage.getItem('userId')
+              ? '<button onclick="logout()">Logout</button>'
+              : '<button onclick="toLoginPage()">Move to Login Page</button>'
+          );
+
+        // TODO Guide: Log view_page event on page change
+        TailCatcherSdk.logEvent(TailCatcherSdk.EventName.VIEW_PAGE, { page: 'main' });
+      }
+
+      function toLoginPage() {
+        // Mocking SPA
+        window.history.pushState({}, 'Login', '?page=login');
+        document.getElementById('app').innerHTML = '' +
+          '<h1>Login Page</h1>' +
+          '<button onclick="toMainPage()">Move to Main Page</button>' +
+          '<br /><br />' +
+          '<input id="id-input" type="text" placeholder="ID" />' +
+          '<button onclick="login()">Login</button>';
+
+        // TODO Guide: Log view_page event on page change
+        TailCatcherSdk.logEvent(TailCatcherSdk.EventName.VIEW_PAGE, { page: 'login' });
+      }
+
+      function toProductPage() {
+        // Mocking SPA
+        window.history.pushState({}, 'Product', '?page=product_flower');
+        document.getElementById('app').innerHTML = '' +
+          '<h1>Product Page - flower</h1>' +
+          '<button onclick="toMainPage()">Move to Main Page</button>' +
+          '<br /><br />' +
+          '<p>Name: flower</p>' +
+          '<p>Price: $10</p>';
+
+        // TODO Guide: Log view_page event on page change
+        TailCatcherSdk.logEvent(TailCatcherSdk.EventName.VIEW_PAGE, { page: 'product_detail' });
+        // TODO Guide: Log view_item event on product view
+        TailCatcherSdk.logEvent(TailCatcherSdk.EventName.VIEW_ITEM, { product: 'product_flower' });
+      }
+
+      function login() {
+        // Mocking login
+        localStorage.setItem('userId', document.getElementById('id-input').value);
+        alert('Login Success');
+
+        // TODO Guide: Set user on login
+        TailCatcherSdk.setUser(localStorage.getItem('userId'));
+
+        toMainPage();
+      }
+
+      function logout() {
+        // Mocking logout
+        localStorage.removeItem('userId');
+        alert('Logout Success');
+
+        // TODO Guide: Unset user on logout
+        TailCatcherSdk.setUser(null);
+
+        toMainPage();
+      }
+    </script>
+  </body>
+</html>
